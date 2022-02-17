@@ -3,11 +3,18 @@ import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import React from 'react';
 
 const name = 'Elliot';
-export const siteTitle = 'Next.js Sample Website';
+export const siteTitle = 'My first Next.js Website';
 
-const Layout = ({ children, home }) => {
+const Layout = ({
+  children,
+  home,
+}: {
+  children: React.ReactNode;
+  home?: boolean;
+}) => {
   return (
     <div className={styles.container}>
       <Head>
