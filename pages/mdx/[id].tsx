@@ -1,30 +1,42 @@
-import { getAllPostIds } from '../../lib/posts-mdx';
 import { GetStaticProps, GetStaticPaths } from 'next';
 
 import FirstPost from '../../posts/mdx/pre-rendering.mdx';
 import SecondPost from '../../posts/mdx/ssg-ssr.mdx';
 
-const Post = ({ PostComp }) => {
-  return PostComp;
+const POSTS = {
+  ['pre-rendering']: FirstPost,
+  ['ssg-ssr']: SecondPost,
+};
+
+const Post = ({ slug }) => {
+  const Comp = POSTS[slug];
+  return <Comp />;
 };
 
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: ['pre-rendering', 'ssg-ssr'],
+    paths: [
+      {
+        params: {
+          id: 'pre-rendering',
+        },
+      },
+      {
+        params: {
+          id: 'ssg-ssr',
+        },
+      },
+    ],
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const mdx = {
-    ['pre-rendering']: FirstPost,
-    ['ssg-ssr']: SecondPost,
-  };
   return {
     props: {
-      PostCom: mdx[params.id as string],
+      slug: params.id,
     },
   };
 };
