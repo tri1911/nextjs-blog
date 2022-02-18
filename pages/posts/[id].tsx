@@ -1,10 +1,11 @@
-import Layout from '../../components/layout';
-import { getAllPostIds, getPostData } from '../../lib/posts';
-import Head from 'next/head';
-import Date from '../../components/date';
-import utilStyles from '../../styles/utils.module.css';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import Layout from "../../components/layout";
+import { getAllPostIds, getPostData } from "../../lib/posts";
+import Head from "next/head";
+import Date from "../../components/date";
+import utilStyles from "../../styles/utils.module.css";
+import { GetStaticProps, GetStaticPaths } from "next";
 
+/*
 const Post = ({ postData }) => {
   return (
     <Layout>
@@ -40,3 +41,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   };
 };
+*/
+
+export default function Post() {
+  return null;
+}
