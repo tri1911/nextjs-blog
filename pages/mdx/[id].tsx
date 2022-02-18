@@ -1,16 +1,17 @@
 import { GetStaticProps, GetStaticPaths } from "next";
-import { POSTS } from "../../posts/mdx";
+import { LoadMDX, loadSlugs } from "../../posts/mdx";
 
 const Post = ({ slug }) => {
-  const Comp = POSTS[slug];
+  const Comp = LoadMDX(slug);
   return <Comp />;
 };
 
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const slugs = loadSlugs();
   return {
-    paths: Object.keys(POSTS).map((id) => ({ params: { id } })),
+    paths: slugs.map((id) => ({ params: { id } })),
     fallback: false,
   };
 };
