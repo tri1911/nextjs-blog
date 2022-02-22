@@ -1,9 +1,13 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { LoadMDX, loadSlugs } from "../../posts/mdx";
 
-const Post = ({ slug }) => {
+const Post = ({ slug }: { slug: string }) => {
   const Comp = LoadMDX(slug);
-  return <Comp />;
+  return (
+    <div className="mt-8 mx-auto prose prose-red">
+      <Comp />
+    </div>
+  );
 };
 
 export default Post;

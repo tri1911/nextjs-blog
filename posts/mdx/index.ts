@@ -1,6 +1,6 @@
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import fs from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
 
 export function LoadMDXMeta(slug: string) {
   return require(`./${slug}.mdx`).meta;

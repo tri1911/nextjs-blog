@@ -1,10 +1,11 @@
-import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
-import utilStyles from '../styles/utils.module.css';
-import Link from 'next/link';
-import Date from '../components/date';
-import { GetStaticProps } from 'next';
-import { loadSlugs, LoadMDXMeta } from '../posts/mdx';
+/*
+import Head from "next/head";
+import Layout, { siteTitle } from "../components/layout";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next/link";
+import Date from "../components/date";
+import { GetStaticProps } from "next";
+import { loadSlugs, LoadMDXMeta } from "../posts/mdx";
 
 export default function Home({ allSlugs }: { allSlugs: string[] }) {
   const allPostsData: { slug: string; title: string; date: string }[] =
@@ -12,7 +13,6 @@ export default function Home({ allSlugs }: { allSlugs: string[] }) {
       const metaData = LoadMDXMeta(slug);
       return { slug, ...metaData };
     });
-  console.log(allPostsData);
 
   return (
     <Layout home>
@@ -20,7 +20,9 @@ export default function Home({ allSlugs }: { allSlugs: string[] }) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>Hello, I'm Elliot. I'm a software developer.</p>
+        <p className="text-3xl font-bold">
+          Hello, I'm Elliot. I'm a software developer.
+        </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
@@ -50,3 +52,36 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
+*/
+
+const Home = () => {
+  return (
+    <>
+      <div className="container">
+        <div className="output">
+          <div className="current">current</div>
+          <div className="total">total</div>
+        </div>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <br />
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <br />
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <br />
+        <button>+</button>
+        <button>0</button>
+        <button>-</button>
+        <br />
+        <button className="span-three">clear</button>
+      </div>
+    </>
+  );
+};
+
+export default Home;
