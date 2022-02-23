@@ -6,11 +6,11 @@ export enum CalculatorActionKind {
 }
 
 export type Operator = "+" | "-";
-export type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export interface CalculatorState {
-  total: string;
-  current: string | null;
+  total: number;
+  current: number | null;
   operator: Operator | null;
   isNewCalculation: boolean;
 }
@@ -21,7 +21,7 @@ export interface CalculatorAction {
 }
 
 export const calculatorDefaultState = {
-  total: "0",
+  total: 0,
   current: null,
   operator: null,
   isNewCalculation: true,

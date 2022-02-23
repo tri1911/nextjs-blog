@@ -9,65 +9,58 @@ export const calculatorReducer = (
   state: CalculatorState,
   { type, payload }: CalculatorAction
 ) => {
+  const { total, current, operator, isNewCalculation } = state;
   switch (type) {
     case CalculatorActionKind.APPEND_DIGIT:
-      if (state.isNewCalculation) {
+      const { digit } = payload;
+      if (isNewCalculation) {
         return {
           ...state,
-          current: payload.digit,
+          current: digit,
           isNewCalculation: false,
         };
       }
-      if (state.current === "0" && payload.digit === "0") {
+      if (!current && !digit) {
         return state;
       }
       return {
         ...state,
-        current: state.current?.concat(payload.digit) || payload.digit,
+        current: current ? current * 10 + digit : digit,
       };
     case CalculatorActionKind.SET_OPERATOR:
+      const { operator } = payload;
       // both current and total do not exist
-      if (!state.current && !state.total) {
+      if (!current && !total) {
         return state;
       }
-      // only total is exist
-      if (!state.current) {
+      // only `total` exists
+      if (!current) {
         return {
           ...state,
-          operator: payload.operator,
+          operator,
         };
       }
-      // only current is exist
-      if (!state.total) {
+      // only `current` exists
+      if (!total) {
         return {
           ...state,
-          total: state.current,
+          total: current,
           current: null,
           operator: payload.operator,
         };
       }
-      // both are exist
+      // both `total` and `current` exist
       return {
         ...state,
         total: evaluate(state),
         current: null,
-        operator: payload.operator,
+        operator,
       };
     case CalculatorActionKind.RESET:
       return calculatorDefaultState;
   }
 };
 
-const evaluate = ({ current, total, operator }: CalculatorState) => {
-  const totalVal = parseInt(total);
-  const currentVal = parseInt(current);
-  if (isNaN(totalVal) || isNaN(currentVal)) {
-    return "";
-  }
-  switch (operator) {
-    case "+":
-      return (totalVal + currentVal).toString();
-    case "-":
-      return (totalVal - currentVal).toString();
-  }
+const evaluate = ({ total, current, operator }: CalculatorState) => {
+  return operator === "+" ? total + current : total - current;
 };
