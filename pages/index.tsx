@@ -54,34 +54,10 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 */
 
+import Calculator from "../components/calculator/calculator";
+
 const Home = () => {
-  return (
-    <>
-      <div className="container">
-        <div className="output">
-          <div className="current">current</div>
-          <div className="total">total</div>
-        </div>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <br />
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <br />
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <br />
-        <button>+</button>
-        <button>0</button>
-        <button>-</button>
-        <br />
-        <button className="span-three">clear</button>
-      </div>
-    </>
-  );
+  return <Calculator />;
 };
 
 export default Home;
