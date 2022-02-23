@@ -12,6 +12,7 @@ const OperatorButton: FunctionComponent<OperatorButtonProps> = ({
 }: OperatorButtonProps) => {
   return (
     <button
+      className="text-4xl ring p-5 rounded-lg bg-green-300 shadow-lg"
       onClick={() =>
         dispatch({
           type: CalculatorActionKind.SET_OPERATOR,

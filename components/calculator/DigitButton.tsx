@@ -12,6 +12,7 @@ const DigitButton: FunctionComponent<DigitButtonProps> = ({
 }: DigitButtonProps) => {
   return (
     <button
+      className="text-4xl ring p-5 rounded-lg bg-orange-300 shadow-lg"
       onClick={() =>
         dispatch({
           type: CalculatorActionKind.APPEND_DIGIT,
