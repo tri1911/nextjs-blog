@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 */
 
-import Calculator from "../components/calculator/calculator";
+import Calculator from "../components/calculator";
 
 const Home = () => {
   return <Calculator />;
