@@ -29,3 +29,37 @@ img {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .blog-article p {
+    @apply font-serif text-lg mt-0 mb-6 mx-4;
+  }
+  .blog-article p a {
+    @apply box-border bg-transparent text-blue-500 cursor-pointer no-underline transition-none;
+  }
+
+  .blog-article strong {
+    @apply font-bold;
+  }
+
+  .blog-article h1,
+  h2 {
+    @apply font-sans font-medium block;
+  }
+
+  .blog-article h1 {
+    @apply text-3xl mt-10 mb-6 mx-4;
+  }
+
+  .blog-article h2 {
+    @apply text-2xl mt-7 mb-4 mx-5;
+  }
+
+  .blog-article ul {
+    @apply block list-disc mx-8;
+  }
+
+  .blog-article li {
+    @apply font-serif text-lg mb-6;
+  }
+}
