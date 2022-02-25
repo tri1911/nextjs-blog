@@ -26,7 +26,30 @@ function JSONPrint({
 }
 
 export function ProTip(props: any) {
-  return <JSONPrint obj={props} block={`ProTip`} />;
+  // return <JSONPrint obj={props} block={`ProTip`} />;
+  return (
+    <div
+      className={`block border-l-4 border-orange-300 py-6 px-8 my-9 mx-auto`}
+    >
+      <div className={`flex mb-6`}>
+        <div>
+          <div
+            className={`uppercase text-sm font-semibold text-white bg-orange-500 rounded-sm p-1`}
+          >
+            Pro Tip
+          </div>
+        </div>
+        <div className={`flex-1`}>
+          <div className={`font-sans text-2xl font-semibold pl-2`}>
+            {props.title}
+          </div>
+        </div>
+      </div>
+      <div className={`font-serif text-gray-900 text-xl mb-0`}>
+        {props.children}
+      </div>
+    </div>
+  );
 }
 
 export function KeyLearnings(props: any) {
