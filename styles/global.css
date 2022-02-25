@@ -32,45 +32,50 @@ img {
 
 @layer components {
   .blog-article p {
-    @apply font-serif text-lg mt-0 mb-6 mx-4;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    @apply font-serif text-lg mt-0 mb-6 leading-7;
   }
 
-  .blog-article p a {
-    @apply box-border bg-transparent text-blue-500 cursor-pointer no-underline transition-none hover:outline-none hover:underline;
-  }
-
-  .blog-article strong {
-    @apply font-bold;
-  }
-
-  .blog-article h1,
-  h2,
-  h3 {
-    @apply font-sans font-medium block;
+  .blog-article a {
+    @apply text-blue-400 hover:underline;
   }
 
   .blog-article h1 {
-    @apply text-3xl mt-10 mb-6 mx-4;
+    @apply text-3xl leading-9 mt-9 mb-6;
   }
 
   .blog-article h2 {
-    @apply text-2xl mt-7 mb-4 mx-5;
-  }
-
-  .blog-article h3 {
-    @apply text-xl mt-9 mb-5 mx-4;
+    @apply text-2xl leading-8 mt-8 mb-5;
   }
 
   .blog-article ul {
-    @apply block list-disc mx-12;
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    @apply list-disc mt-0 mb-6;
   }
 
   .blog-article li {
-    @apply font-serif text-lg mb-6;
+    @apply font-serif text-lg leading-7 mb-4;
   }
 
   .blog-article ul ul {
-    @apply mt-4;
     list-style-type: circle;
+  }
+
+  .blog-article ul ul li {
+    @apply leading-snug my-3;
+  }
+
+  .pro-tip-content p {
+    @apply mb-0;
   }
 }

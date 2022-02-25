@@ -28,36 +28,32 @@ function JSONPrint({
 export function ProTip(props: any) {
   // return <JSONPrint obj={props} block={`ProTip`} />;
   return (
-    <div
-      className={`block border-l-4 border-orange-300 py-6 px-8 my-9 mx-auto`}
-    >
-      <div className={`flex mb-6`}>
-        <div>
+    <div className={`border-l-4 border-orange-300 py-4 px-8 my-8 mx-auto`}>
+      <div className={`flex mb-6 items-center`}>
+        <div className={``}>
           <div
-            className={`uppercase text-sm font-semibold text-white bg-orange-500 rounded-sm p-1`}
+            className={`uppercase text-sm font-semibold text-white bg-orange-400 rounded-sm pt-1 pb-3px px-1 leading-none`}
           >
             Pro Tip
           </div>
         </div>
         <div className={`flex-1`}>
-          <div className={`font-sans text-2xl font-semibold pl-2`}>
+          <div className={`text-2xl font-semibold pl-2 leading-tight`}>
             {props.title}
           </div>
         </div>
       </div>
-      <div className={`font-serif text-gray-900 text-xl mb-0`}>
-        {props.children}
-      </div>
+      <div className={`pro-tip-content`}>{props.children}</div>
     </div>
   );
 }
 
 export function KeyLearnings(props: any) {
   return (
-    <div className={`py-3 px-6 bg-orange-50 block`}>
-      <div className={`font-sans block mx-5 mt-7 mb-5 font-semibold text-2xl`}>
-        Key Learnings
-      </div>
+    <div className={`py-3 px-7 bg-orange-50`}>
+      <h2 className={``}>
+        <strong>Key Learnings</strong>
+      </h2>
       {props.children}
     </div>
   );
@@ -78,7 +74,7 @@ export function BlogImage(props: any) {
   */
 
   return (
-    <div className={`block max-w-2xl mx-auto mt-8 mb-0 align-middle font-sans`}>
+    <div className={`max-w-full mx-auto mt-8 mb-0 align-middle`}>
       <img
         className={`h-auto max-w-full align-middle border-none`}
         src={props.src}
@@ -92,13 +88,9 @@ export function BlogImage(props: any) {
 export function ImageReference(props: any) {
   // return <JSONPrint obj={props} block={`ImageReference`} />;
   return (
-    <div className={`text-center text-gray-400 mt-2 mb-6 mx-4 text-xs`}>
+    <div className={`text-center text-gray-400 text-xs mt-2 mb-6`}>
       {"Source: "}
-      <a
-        className={`box-border bg-transparent text-blue-500 cursor-pointer no-underline transition-none hover:outline-none hover:underline`}
-      >
-        {props.text}
-      </a>
+      <a className={``}>{props.text}</a>
     </div>
   );
 }
