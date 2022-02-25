@@ -4,7 +4,7 @@ import { LoadMDX, loadSlugs } from "../../posts/mdx";
 const Post = ({ slug }: { slug: string }) => {
   const Comp = LoadMDX(slug);
   return (
-    <div className="blog-article">
+    <div className="blog-article bg-white">
       <Comp />
     </div>
   );

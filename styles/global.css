@@ -34,8 +34,9 @@ img {
   .blog-article p {
     @apply font-serif text-lg mt-0 mb-6 mx-4;
   }
+
   .blog-article p a {
-    @apply box-border bg-transparent text-blue-500 cursor-pointer no-underline transition-none;
+    @apply box-border bg-transparent text-blue-500 cursor-pointer no-underline transition-none hover:outline-none hover:underline;
   }
 
   .blog-article strong {
@@ -43,7 +44,8 @@ img {
   }
 
   .blog-article h1,
-  h2 {
+  h2,
+  h3 {
     @apply font-sans font-medium block;
   }
 
@@ -55,11 +57,20 @@ img {
     @apply text-2xl mt-7 mb-4 mx-5;
   }
 
+  .blog-article h3 {
+    @apply text-xl mt-9 mb-5 mx-4;
+  }
+
   .blog-article ul {
-    @apply block list-disc mx-8;
+    @apply block list-disc mx-12;
   }
 
   .blog-article li {
     @apply font-serif text-lg mb-6;
+  }
+
+  .blog-article ul ul {
+    @apply mt-4;
+    list-style-type: circle;
   }
 }
