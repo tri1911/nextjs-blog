@@ -54,29 +54,18 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 */
 
-import axios from "axios";
 import React from "react";
+import axios from "axios";
 
 const Slack = () => {
   const [message, setMessage] = React.useState("");
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const webhookUrl =
-      "https://hooks.slack.com/services/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";
-
-    const data = {
-      text: message,
-    };
 
     try {
-      let response = await axios.post(webhookUrl, JSON.stringify(data), {
-        withCredentials: false,
-      });
-
-      console.log(response);
-
-      alert("Message is successfully sent!");
+      const response = await axios.post("/api/message", { text: message });
+      console.log(response.data);
       setMessage("");
     } catch (error) {
       console.log(error);
