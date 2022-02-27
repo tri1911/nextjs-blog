@@ -54,63 +54,64 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 */
 
-/*
-const Wrapper = ({ children }) => {
+import axios from "axios";
+import React from "react";
+
+const Slack = () => {
+  const [message, setMessage] = React.useState("");
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    const webhookUrl =
+      "https://hooks.slack.com/services/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";
+
+    const data = {
+      text: message,
+    };
+
+    try {
+      let response = await axios.post(webhookUrl, JSON.stringify(data), {
+        withCredentials: false,
+      });
+
+      console.log(response);
+
+      alert("Message is successfully sent!");
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="w-80 min-h-fit p-3 rounded-lg bg-gradient-to-b from-sky-700 to-sky-900">
-      {children}
+    <div className="flex">
+      <div className="w-1/2 container mx-auto mt-5">
+        <form className="bg-white shadow-md rounded px-8 py-6 mb-4 self-center">
+          <label
+            htmlFor="message"
+            className="block text-gray-700 text-base font-bold mb-2"
+          >
+            Message
+          </label>
+          <textarea
+            className="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            id="message"
+            placeholder="Enter your message here"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
+          />
+          <button
+            className="px-4 py-2 rounded shadow mt-4 bg-lime-500 hover:bg-lime-400 focus:shadow-outline focus:outline-none text-white font-bold"
+            onClick={sendMessage}
+          >
+            Send
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-const Display = ({ children }) => {
-  return (
-    <div className="w-full h-28 mb-3 py-0 px-4 bg-sky-800 rounded-lg flex flex-col items-end justify-around text-white box-border">
-      {children}
-    </div>
-  );
-};
-
-const ButtonBox = ({ children }) => {
-  return <div className="w-full flex flex-wrap gap-2">{children}</div>;
-};
-
-const Button = ({ value, onClick }) => {
-  return (
-    <button
-      className="flex-auto w-1/4 h-14 border-none bg-lime-600 hover:bg-lime-400 text-2xl text-white font-semibold uppercase cursor-pointer rounded-lg outline-none"
-      onClick={onClick}
-    >
-      {value}
-    </button>
-  );
-};
-
-const btnValues = [[7, 8, 9], [4, 5, 6], [1, 2, 3], ["-", 0, "+"], ["clear"]];
-
-const Home = () => {
-  return (
-    <div className="h-screen flex items-center justify-center">
-      <Wrapper>
-        <Display>
-          <div className="text-5xl font-semibold">Total</div>
-          <div className="text-2xl font-normal">Current</div>
-        </Display>
-        <ButtonBox>
-          {btnValues.flat().map((btn, i) => {
-            return <Button key={i} value={btn} onClick={() => {}} />;
-          })}
-        </ButtonBox>
-      </Wrapper>
-    </div>
-  );
-};
-*/
-
-import Calculator from "../calculator";
-
-const Home = () => {
-  return <Calculator />;
-};
-
-export default Home;
+export default Slack;
