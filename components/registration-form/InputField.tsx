@@ -1,21 +1,21 @@
 import React, { ChangeEventHandler, FC } from "react";
 import { FieldState } from "../../pages/form";
 
-interface InputFormProps {
+interface InputFieldProps {
   text: string;
   type: string;
-  placeholder: string;
+  placeholder?: string;
   state: FieldState;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-const InputForm: FC<InputFormProps> = ({
+const InputField: FC<InputFieldProps> = ({
   text,
   type,
   placeholder,
   state,
   onChange,
-}: InputFormProps) => {
+}: InputFieldProps) => {
   const { value, error } = state;
   return (
     <div className="mb-3">
@@ -37,4 +37,4 @@ const InputForm: FC<InputFormProps> = ({
   );
 };
 
-export default InputForm;
+export default InputField;
