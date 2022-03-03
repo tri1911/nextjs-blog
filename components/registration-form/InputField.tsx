@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, FC } from "react";
-import { FieldState } from "../../pages/form";
+import { FieldState } from "./types";
 
 interface InputFieldProps {
   text: string;
