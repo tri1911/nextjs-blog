@@ -3,70 +3,6 @@ import axios from "axios";
 import InputField from "../../components/registration-form/InputField";
 
 /**
- * Types
- */
-
-export type FieldState = {
-  value: string;
-  error: string | undefined;
-};
-
-export type FormState = {
-  [fieldName: string]: FieldState;
-};
-
-type FieldDescription = {
-  type: "text" | "password";
-  label: string;
-  placeholder?: string;
-};
-
-/**
- * Constants
- */
-
-const fields: { [key: string]: FieldDescription } = {
-  email: {
-    type: "text",
-    label: "Email",
-    placeholder: "email@example.com",
-  },
-  firstName: {
-    label: "First Name",
-    type: "text",
-    placeholder: "Enter your First Name here",
-  },
-  lastName: {
-    label: "Last Name",
-    type: "text",
-    placeholder: "Enter your Last Name here",
-  },
-  password: {
-    label: "Password",
-    type: "password",
-    placeholder: "Enter your Password here",
-  },
-  passwordConfirm: {
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Confirm your Password",
-  },
-};
-
-const initialFieldState: FieldState = {
-  value: "",
-  error: undefined,
-};
-
-const initialFormState: FormState = {
-  email: initialFieldState,
-  firstName: initialFieldState,
-  lastName: initialFieldState,
-  password: initialFieldState,
-  passwordConfirm: initialFieldState,
-};
-
-/**
  * Validations
  */
 
@@ -103,23 +39,91 @@ const validatePasswordConfirm = (passwordConfirm: string, state: FormState) => {
     : undefined;
 };
 
-const fieldsValidations = {
-  email: validateEmail,
-  firstName: validateFirstName,
-  lastName: validateLastName,
-  password: validatePassword,
-  passwordConfirm: validatePasswordConfirm,
+/**
+ * Constants
+ */
+
+const registerFormFieldSpec: FieldSpec = {
+  email: {
+    type: "text",
+    label: "Email",
+    placeholder: "email@example.com",
+    validationFn: validateEmail,
+  },
+  firstName: {
+    label: "First Name",
+    type: "text",
+    placeholder: "Enter your First Name here",
+    validationFn: validateFirstName,
+  },
+  lastName: {
+    label: "Last Name",
+    type: "text",
+    placeholder: "Enter your Last Name here",
+    validationFn: validateLastName,
+  },
+  password: {
+    label: "Password",
+    type: "password",
+    placeholder: "Enter your Password here",
+    validationFn: validatePassword,
+  },
+  passwordConfirm: {
+    label: "Confirm Password",
+    type: "password",
+    placeholder: "Confirm your Password",
+    validationFn: validatePasswordConfirm,
+  },
+};
+
+const initialFieldState: FieldState = {
+  value: "",
+  error: undefined,
 };
 
 /**
- * Main component
+ * Types
  */
 
-const RegisterForm = () => {
-  const [state, setState] = useState(initialFormState);
+type FieldState = {
+  value: string;
+  error: string | undefined;
+};
 
-  const updateFieldValue = (fieldName: string, value: string) => {
-    setState({ ...state, [fieldName]: { ...state[fieldName], value } });
+type FormState = {
+  [fieldName: string]: FieldState;
+};
+
+type FieldSpec = {
+  [fieldKey: string]: {
+    type: "text" | "password";
+    label: string;
+    placeholder?: string;
+    validationFn: (input: string, state: FormState) => string | undefined;
+  };
+};
+
+/**
+ * Custom Hook
+ */
+
+function useForm(
+  fieldSpec: FieldSpec,
+  submitForm: (validForm: FormState) => Promise<void>
+) {
+  const initialState: FormState = Object.fromEntries(
+    Object.keys(fieldSpec).map((fieldKey) => {
+      return [fieldKey, initialFieldState];
+    })
+  );
+
+  const [formState, setFormState] = useState(initialState);
+
+  const updateFieldValue = (fieldKey: string, newValue: string) => {
+    setFormState({
+      ...formState,
+      [fieldKey]: { ...formState[fieldKey], value: newValue },
+    });
   };
 
   const updateFormState = (
@@ -134,27 +138,19 @@ const RegisterForm = () => {
         [key]: { ...previousState[key], error: reason },
       };
     };
-    return errors.reduce(callback, state);
-  };
-
-  const submitForm = async (validForm: FormState) => {
-    const result = await axios.post("/api/register", validForm);
-    console.log(result);
-    setState(initialFormState);
+    return errors.reduce(callback, formState);
   };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     // validate fields, which returns error messages (or undefined if the field is valid)
-    const errors = Object.entries(fieldsValidations).map(
-      ([key, validationFn]) => {
-        return [key, validationFn(state[key].value, state)] as [
-          string,
-          string | undefined
-        ];
-      }
-    );
+    const errors = Object.entries(fieldSpec).map(([key, spec]) => {
+      return [key, spec.validationFn(formState[key].value, formState)] as [
+        string,
+        string | undefined
+      ];
+    });
 
     // check whether all fields are valid
     const hasError = errors.some(([_, reason]) => !!reason);
@@ -164,11 +160,39 @@ const RegisterForm = () => {
 
     // takes action based on whether all fields are valid
     if (hasError) {
-      setState(newState);
+      setFormState(newState);
     } else {
       await submitForm(newState);
     }
   };
+
+  return {
+    initialState,
+    formState,
+    setFormState,
+    updateFieldValue,
+    handleSubmit,
+  };
+}
+
+/**
+ * Form Component
+ */
+
+const Form = ({ fieldSpec }: { fieldSpec: FieldSpec }) => {
+  const submitForm = async (validForm: FormState) => {
+    const result = await axios.post("/api/register", validForm);
+    console.log(result);
+    setFormState(initialState);
+  };
+
+  const {
+    initialState,
+    formState,
+    setFormState,
+    updateFieldValue,
+    handleSubmit,
+  } = useForm(fieldSpec, submitForm);
 
   return (
     <div className="flex">
@@ -177,13 +201,13 @@ const RegisterForm = () => {
         className="container w-1/2 mx-auto mt-4 bg-white shadow-md rounded px-8 py-6 mb-4 self-center"
         onSubmit={handleSubmit}
       >
-        {Object.entries(fields).map(([key, desc]) => (
+        {Object.entries(fieldSpec).map(([key, spec]) => (
           <InputField
             key={key}
-            type={desc.type}
-            text={desc.label}
-            placeholder={desc.placeholder}
-            state={state[key]}
+            type={spec.type}
+            text={spec.label}
+            placeholder={spec.placeholder}
+            state={formState[key]}
             onChange={(event) => {
               updateFieldValue(key, event.target.value);
             }}
@@ -198,6 +222,14 @@ const RegisterForm = () => {
       </form>
     </div>
   );
+};
+
+/**
+ * Main component
+ */
+
+const RegisterForm = () => {
+  return <Form fieldSpec={registerFormFieldSpec} />;
 };
 
 export default RegisterForm;
