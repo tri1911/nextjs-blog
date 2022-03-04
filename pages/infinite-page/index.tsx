@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 
+type Fn<T extends any[], R> = (...t: T) => R;
+
 const useDetectOnScreen = (
-  ref: any,
-  onScreenHandler: any,
-  offScreenHandler: any
+  ref: React.RefObject<HTMLElement>,
+  onScreenHandler: Fn<[], void>,
+  offScreenHandler: Fn<[], void>
 ) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // initialize observer
     const observer = new IntersectionObserver(
-      (entries: any) => {
-        setIsVisible(entries[0].isIntersecting);
+      ([entry]: any) => {
+        setIsVisible(entry.isIntersecting);
       },
       { threshold: [0] }
     );
@@ -30,30 +32,40 @@ const useDetectOnScreen = (
   }, [isVisible]);
 };
 
-const DetectedBox = ({ id }: { id: string }) => {
-  const boxRef = useRef(null);
+const InfinitePage = () => {
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const [count, setCount] = useState(10);
 
   useDetectOnScreen(
-    boxRef,
-    () => console.log(`box ${id} is on screen`),
-    () => console.log(`box ${id} is on screen`)
+    loadMoreRef,
+    () => {
+      console.log(`load more element is on screen`);
+      setCount(count + 1);
+    },
+    () => {
+      console.log(`load more element is off screen`);
+    }
   );
 
-  return (
-    <div
-      ref={boxRef}
-      className="bg-lime-500 h-80 w-80 my-96 mx-auto py-36 text-white uppercase font-bold text-5xl text-center"
-    >
-      Box {id}
-    </div>
-  );
-};
+  const arr = [...Array(count).keys()];
+  console.log(arr);
 
-const InfinitePage = () => {
   return (
-    <div>
-      <DetectedBox id="1" />
-      <DetectedBox id="2" />
+    <div className={``}>
+      {arr.map((id) => (
+        <div
+          key={id}
+          className="bg-lime-500 font-bold uppercase text-center leading-10 text-white my-4"
+        >
+          element {`${id}`}
+        </div>
+      ))}
+      <div
+        ref={loadMoreRef}
+        className="bg-orange-500 h-7 mt-96 text-white uppercase font-bold text-lg text-center"
+      >
+        Load More
+      </div>
     </div>
   );
 };
