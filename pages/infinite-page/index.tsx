@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const DetectedBox = ({ id }: { id: string }) => {
-  const boxRef = useRef(null);
+const useDetectOnScreen = (
+  ref: any,
+  onScreenHandler: any,
+  offScreenHandler: any
+) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    console.log(`Box ${id} is rendered...`);
     // initialize observer
     const observer = new IntersectionObserver(
       (entries: any) => {
@@ -13,21 +15,29 @@ const DetectedBox = ({ id }: { id: string }) => {
       },
       { threshold: [0] }
     );
+
     // subscribe
-    console.log(`box ${id} is subscribing...`);
-    boxRef.current && observer.observe(boxRef.current);
+    ref.current && observer.observe(ref.current);
+
     return () => {
       // unsubscribe
-      console.log(`box ${id} is unsubscribing...`);
-      boxRef.current && observer.unobserve(boxRef.current);
+      ref.current && observer.unobserve(ref.current);
     };
   }, []);
 
   useEffect(() => {
-    console.log(
-      isVisible ? `box ${id} is on screen` : `box ${id} is off screen`
-    );
+    isVisible ? onScreenHandler() : offScreenHandler();
   }, [isVisible]);
+};
+
+const DetectedBox = ({ id }: { id: string }) => {
+  const boxRef = useRef(null);
+
+  useDetectOnScreen(
+    boxRef,
+    () => console.log(`box ${id} is on screen`),
+    () => console.log(`box ${id} is on screen`)
+  );
 
   return (
     <div
