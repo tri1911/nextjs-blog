@@ -1,73 +1,83 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import CardItem from "../../components/infinite-scroll/CardItem";
+import useDetectOnScreen from "../../components/infinite-scroll/hook";
+import { ItemData } from "../../components/infinite-scroll/types";
+import axios from "axios";
+import LoadingItem from "../../components/infinite-scroll/LoadingItem";
 
-type Fn<T extends any[], R> = (...t: T) => R;
-
-const useDetectOnScreen = (
-  ref: React.RefObject<HTMLElement>,
-  onScreenHandler: Fn<[], void>,
-  offScreenHandler: Fn<[], void>
-) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // initialize observer
-    const observer = new IntersectionObserver(
-      ([entry]: any) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: [0] }
-    );
-
-    // subscribe
-    ref.current && observer.observe(ref.current);
-
-    return () => {
-      // unsubscribe
-      ref.current && observer.unobserve(ref.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    isVisible ? onScreenHandler() : offScreenHandler();
-  }, [isVisible]);
+const defaultState: { items: ItemData[]; isLoading: boolean; page: number } = {
+  items: [],
+  isLoading: false,
+  page: 1,
 };
 
-const InfinitePage = () => {
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const [count, setCount] = useState(10);
+const InfiniteScrollingPage = () => {
+  const [state, setState] = useState(defaultState);
+
+  const detectBoxRef = useRef<HTMLDivElement>(null);
 
   useDetectOnScreen(
-    loadMoreRef,
+    detectBoxRef,
     () => {
-      console.log(`load more element is on screen`);
-      setCount(count + 1);
+      console.log(`detectBox is fully on screen`);
+      loadItems(state.page);
     },
     () => {
-      console.log(`load more element is off screen`);
+      console.log(`detectBox is off screen`);
     }
   );
 
-  const arr = [...Array(count).keys()];
-  console.log(arr);
+  const loadItems = async (page: number = 1) => {
+    // set isLoading to true
+    setState({ ...state, isLoading: true });
+    // fetch data through `/api/items`
+    const { data } = await axios.get(`/api/items?page=${page}`);
+    // waiting simulation
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // concatenate returned items to items
+    // set isLoading back to false
+    // update the current page as well
+    setState({
+      items: [...state.items, ...data.items],
+      isLoading: false,
+      page: state.page + 1,
+    });
+  };
+
+  // load the first page at the first render
+  useEffect(() => {
+    loadItems(state.page);
+  }, []);
+
+  console.log(state);
 
   return (
-    <div className={``}>
-      {arr.map((id) => (
-        <div
-          key={id}
-          className="bg-lime-500 font-bold uppercase text-center leading-10 text-white my-4"
-        >
-          element {`${id}`}
-        </div>
-      ))}
-      <div
-        ref={loadMoreRef}
-        className="bg-orange-500 h-7 mt-96 text-white uppercase font-bold text-lg text-center"
-      >
-        Load More
+    <div>
+      <h1 className="text-4xl font-bold text-center my-5">
+        Infinite Scrolling Page
+      </h1>
+      <div className="mx-auto w-1/3">
+        {state.items.map((item, id) => (
+          <div key={item.id} className="mb-1">
+            <CardItem {...item} />
+          </div>
+        ))}
+        {state.isLoading && <LoadingItem />}
+        {/* {state.isLoading || (
+          <div className="flex items-center justify-center my-3 cursor-pointer">
+            <button
+              className="px-3 py-1 rounded-lg text-white font-semibold mx-auto bg-slate-500 text-center"
+              onClick={() => loadItems()}
+            >
+              Load More
+            </button>
+          </div>
+        )} */}
+        <div ref={detectBoxRef} className="h-9"></div>
       </div>
     </div>
   );
 };
 
-export default InfinitePage;
+export default InfiniteScrollingPage;
