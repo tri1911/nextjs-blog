@@ -29,7 +29,7 @@ const InfiniteScrollingPage = () => {
 
   const loadItems = async (page: number = 1) => {
     // set isLoading to true
-    setState({ ...state, isLoading: true });
+    setState((state) => ({ ...state, isLoading: true }));
     // fetch data through `/api/items`
     const { data } = await axios.get(`/api/items?page=${page}`);
     // waiting simulation
@@ -38,11 +38,11 @@ const InfiniteScrollingPage = () => {
     // concatenate returned items to items
     // set isLoading back to false
     // update the current page as well
-    setState({
+    setState((state) => ({
       items: [...state.items, ...data.items],
       isLoading: false,
       page: state.page + 1,
-    });
+    }));
   };
 
   // load the first page at the first render
