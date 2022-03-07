@@ -20,18 +20,19 @@ const InfiniteScrollingPage = () => {
     detectBoxRef,
     () => {
       console.log(`detectBox is fully on screen`);
-      loadItems(state.page);
+      console.log("onScreenHandler is Called");
+      loadItems();
     },
     () => {
       console.log(`detectBox is off screen`);
     }
   );
 
-  const loadItems = async (page: number = 1) => {
+  const loadItems = async () => {
     // set isLoading to true
     setState((state) => ({ ...state, isLoading: true }));
     // fetch data through `/api/items`
-    const { data } = await axios.get(`/api/items?page=${page}`);
+    const { data } = await axios.get(`/api/items?page=${state.page}`);
     // waiting simulation
     await new Promise((r) => setTimeout(r, 1000));
 
@@ -45,36 +46,22 @@ const InfiniteScrollingPage = () => {
     }));
   };
 
-  // load the first page at the first render
-  useEffect(() => {
-    loadItems(state.page);
-  }, []);
-
-  console.log(state);
-
   return (
     <div>
       <h1 className="text-4xl font-bold text-center my-5">
         Infinite Scrolling Page
       </h1>
       <div className="mx-auto w-1/3">
-        {state.items.map((item, id) => (
+        {state.items.map((item) => (
           <div key={item.id} className="mb-1">
             <CardItem {...item} />
           </div>
         ))}
-        {state.isLoading && <LoadingItem />}
-        {/* {state.isLoading || (
-          <div className="flex items-center justify-center my-3 cursor-pointer">
-            <button
-              className="px-3 py-1 rounded-lg text-white font-semibold mx-auto bg-slate-500 text-center"
-              onClick={() => loadItems()}
-            >
-              Load More
-            </button>
-          </div>
-        )} */}
-        <div ref={detectBoxRef} className="h-9"></div>
+        {!state.isLoading ? (
+          <div ref={detectBoxRef} className="h-9" />
+        ) : (
+          <LoadingItem />
+        )}
       </div>
     </div>
   );

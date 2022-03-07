@@ -23,5 +23,5 @@ export default function useDetectOnScreen(
       // unsubscribe
       ref.current && observer.unobserve(ref.current);
     };
-  }, []);
+  }, [onScreenHandler, offScreenHandler]);
 }
