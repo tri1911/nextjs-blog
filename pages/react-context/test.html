@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- This setup is not suitable for production. -->
+  <!-- Only use it in development! -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://cdn.skypack.dev/react",
+        "react-dom": "https://cdn.skypack.dev/react-dom"
+      }
+    }
+  </script>
+  <script type="text/babel" data-type="module">
+    import * as React from "react";
+    import * as ReactDOM from "react-dom";
+
+    import { useState, useEffect } from "react";
+    import Clock from "./Clock.js";
+
+    function useTime() {
+      const [time, setTime] = useState(() => new Date());
+      useEffect(() => {
+        const id = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+        return () => clearInterval(id);
+      }, []);
+      return time;
+    }
+
+    let Root = function App() {
+      const time = useTime();
+      const [color, setColor] = useState("lightcoral");
+      return (
+        <div>
+          <p>
+            Pick a color:{" "}
+            <select value={color} onChange={(e) => setColor(e.target.value)}>
+              <option value="lightcoral">lightcoral</option>
+              <option value="midnightblue">midnightblue</option>
+              <option value="rebeccapurple">rebeccapurple</option>
+            </select>
+          </p>
+          <Clock color={color} time={time.toLocaleTimeString()} />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Root />, document.getElementById("root"));
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    h4 {
+      margin-top: 0;
+      font-size: 16px;
+    }
+
+    h5 {
+      margin-top: 0;
+      font-size: 14px;
+    }
+
+    h6 {
+      margin-top: 0;
+      font-size: 12px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</html>
