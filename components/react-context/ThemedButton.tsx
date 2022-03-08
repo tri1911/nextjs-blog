@@ -10,7 +10,8 @@ const ThemedButton = ({
   type: "button" | "reset" | "submit" | undefined;
   onClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const currentTheme = useContext(FormContext);
+  const { themes, selectedTheme } = useContext(FormContext);
+  const currentTheme = themes[selectedTheme];
   const color =
     type === "submit"
       ? currentTheme.button.primary

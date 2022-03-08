@@ -1,42 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Theme } from "./types";
+import { emptyTheme } from "./types";
 import InputTextField from "./InputTextField";
 import Description from "./Description";
 import ThemedButton from "./ThemedButton";
 import { FormContext } from "./FormContext";
 
-const ThemedForm = ({
-  addOrUpdateTheme,
-}: {
-  addOrUpdateTheme: (theme: Theme) => void;
-}) => {
-  const currentTheme = useContext(FormContext);
+const ThemedForm = () => {
+  const { themes, setThemes, selectedTheme, setSelectedTheme } =
+    useContext(FormContext);
+  const currentTheme = themes[selectedTheme];
+
   const [state, setState] = useState(currentTheme);
 
   useEffect(() => setState(currentTheme), [currentTheme]);
 
-  const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    addOrUpdateTheme(state);
-  };
-
-  const resetState = () => {
-    setState({
-      name: "",
-      description: "",
-      main: "",
-      input: "",
-      button: {
-        primary: "",
-        secondary: "",
-      },
-    });
+    setThemes({ ...themes, [state.name]: state });
+    // reset state
+    setState(emptyTheme);
   };
 
   return (
     <form
       className={`${currentTheme.main} flex flex-col space-y-5 mx-auto shadow-md rounded px-8 py-6`}
-      onSubmit={onSubmitHandler}
+      onSubmit={handleSubmit}
     >
       <InputTextField
         name="Theme Name"
@@ -91,7 +79,7 @@ const ThemedForm = ({
           name="Reset"
           type="reset"
           onClickHandler={() => {
-            resetState();
+            setState(emptyTheme);
           }}
         />
       </div>

@@ -13,22 +13,16 @@ const ThemeCreator = () => {
 
   return (
     <div className="flex">
-      <section className="h-fit p-3 m-3 bg-slate-300 rounded">
-        <ThemePicker
-          onChangeHandler={(e) => setSelectedTheme(e.target.value)}
-          themes={themes}
-          selectedTheme={selectedTheme}
-        />
-      </section>
-      <section className="w-1/2 h-fit p-3">
-        <FormContext.Provider value={themes[selectedTheme]}>
-          <ThemedForm
-            addOrUpdateTheme={(theme) =>
-              setThemes({ ...themes, [theme.name]: theme })
-            }
-          />
-        </FormContext.Provider>
-      </section>
+      <FormContext.Provider
+        value={{ themes, setThemes, selectedTheme, setSelectedTheme }}
+      >
+        <section className="h-fit p-3 m-3 bg-slate-300 rounded">
+          <ThemePicker />
+        </section>
+        <section className="w-1/2 h-fit p-3">
+          <ThemedForm />
+        </section>
+      </FormContext.Provider>
     </div>
   );
 };

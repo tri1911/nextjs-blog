@@ -8,7 +8,9 @@ const Description = ({
   value: string;
   onChangeHandler: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
-  const currentTheme = useContext(FormContext);
+  const { themes, selectedTheme } = useContext(FormContext);
+  const currentTheme = themes[selectedTheme];
+
   return (
     <label className={`text-lg font-medium`}>
       Description

@@ -9,6 +9,17 @@ export type Theme = {
   };
 };
 
+export const emptyTheme: Theme = {
+  name: "",
+  description: "",
+  main: "",
+  input: "",
+  button: {
+    primary: "",
+    secondary: "",
+  },
+};
+
 export type ThemeList = { [name: string]: Theme };
 
 export const initialThemeList: ThemeList = {

@@ -10,7 +10,9 @@ const InputTextField = ({
   value: string;
   onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
-  const currentTheme = useContext(FormContext);
+  const { themes, selectedTheme } = useContext(FormContext);
+  const currentTheme = themes[selectedTheme];
+
   return (
     <label className={`text-lg font-medium`}>
       {name}
