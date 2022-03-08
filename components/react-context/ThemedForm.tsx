@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { emptyTheme } from "./types";
 import InputTextField from "./InputTextField";
 import Description from "./Description";
 import ThemedButton from "./ThemedButton";
-import { FormContext } from "./FormContext";
+import { useTheme, useThemeUpdate } from "./hook";
 
 const ThemedForm = () => {
-  const { themes, setThemes, selectedTheme, setSelectedTheme } =
-    useContext(FormContext);
+  const { themes, selectedTheme } = useTheme();
+  const { setThemes } = useThemeUpdate();
+
   const currentTheme = themes[selectedTheme];
 
   const [state, setState] = useState(currentTheme);

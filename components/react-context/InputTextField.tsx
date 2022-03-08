@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { FormContext } from "./FormContext";
+import React from "react";
+import { useTheme } from "./hook";
 
 const InputTextField = ({
   name,
@@ -10,7 +10,7 @@ const InputTextField = ({
   value: string;
   onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
-  const { themes, selectedTheme } = useContext(FormContext);
+  const { themes, selectedTheme } = useTheme();
   const currentTheme = themes[selectedTheme];
 
   return (

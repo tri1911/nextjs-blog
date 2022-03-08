@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
-import { FormContext } from "./FormContext";
+import React from "react";
+import { useTheme, useThemeUpdate } from "./hook";
 
 const ThemePicker = () => {
-  const { themes, selectedTheme, setSelectedTheme } = useContext(FormContext);
+  const { themes, selectedTheme } = useTheme();
+  const { setSelectedTheme } = useThemeUpdate();
 
   return (
     <p>

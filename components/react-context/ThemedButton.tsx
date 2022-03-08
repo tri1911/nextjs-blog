@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { FormContext } from "./FormContext";
+import React from "react";
+import { useTheme } from "./hook";
 
 const ThemedButton = ({
   name,
@@ -10,7 +10,7 @@ const ThemedButton = ({
   type: "button" | "reset" | "submit" | undefined;
   onClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const { themes, selectedTheme } = useContext(FormContext);
+  const { themes, selectedTheme } = useTheme();
   const currentTheme = themes[selectedTheme];
   const color =
     type === "submit"
