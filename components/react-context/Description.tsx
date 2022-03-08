@@ -1,19 +1,24 @@
-import React from "react";
-import { Fn, Theme } from "./types";
+import React, { useContext } from "react";
+import { FormContext } from "./FormContext";
 
 const Description = ({
+  value,
   onChangeHandler,
-  theme,
 }: {
-  onChangeHandler: Fn<[], void>;
-  theme: Theme;
+  value: string;
+  onChangeHandler: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
+  const currentTheme = useContext(FormContext);
   return (
-    <textarea
-      className={`${theme.input} border rounded p-3 leading-tight focus:outline-none focus:bg-white`}
-      placeholder="Description"
-      onChange={onChangeHandler}
-    />
+    <label className={`text-lg font-medium`}>
+      Description
+      <textarea
+        value={value}
+        className={`${currentTheme.input} w-full border rounded p-3 mt-2 leading-tight focus:outline-none focus:bg-white`}
+        placeholder="Description"
+        onChange={onChangeHandler}
+      />
+    </label>
   );
 };
 

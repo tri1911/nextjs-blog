@@ -1,12 +1,12 @@
 import React from "react";
-import { Fn, ThemeList } from "./types";
+import { ThemeList } from "./types";
 
 const ThemePicker = ({
   onChangeHandler,
   themes,
   selectedTheme,
 }: {
-  onChangeHandler: Fn<[React.ChangeEvent<HTMLSelectElement>], void>;
+  onChangeHandler: React.ChangeEventHandler<HTMLSelectElement>;
   themes: ThemeList;
   selectedTheme: string;
 }) => {

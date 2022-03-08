@@ -1,22 +1,27 @@
-import React from "react";
-import { Fn, Theme } from "./types";
+import React, { useContext } from "react";
+import { FormContext } from "./FormContext";
 
 const InputTextField = ({
   name,
+  value,
   onChangeHandler,
-  theme,
 }: {
   name: string;
-  onChangeHandler: Fn<[], void>;
-  theme: Theme;
+  value: string;
+  onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
+  const currentTheme = useContext(FormContext);
   return (
-    <input
-      className={`${theme.input} border rounded p-3 leading-tight focus:outline-none focus:bg-white`}
-      type="text"
-      placeholder={name}
-      onChange={onChangeHandler}
-    />
+    <label className={`text-lg font-medium`}>
+      {name}
+      <input
+        className={`w-full ${currentTheme.input} border rounded p-3 mt-2 leading-tight focus:outline-none focus:bg-white`}
+        type="text"
+        value={value}
+        placeholder={name}
+        onChange={onChangeHandler}
+      />
+    </label>
   );
 };
 

@@ -1,19 +1,20 @@
-import React from "react";
-import { Fn, Theme } from "./types";
+import React, { useContext } from "react";
+import { FormContext } from "./FormContext";
 
 const ThemedButton = ({
   name,
   type,
   onClickHandler,
-  theme,
 }: {
   name: string;
   type: "button" | "reset" | "submit" | undefined;
-  onClickHandler: Fn<[], void>;
-  theme: Theme;
+  onClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const currentTheme = useContext(FormContext);
   const color =
-    type === "submit" ? theme.button.primary : theme.button.secondary;
+    type === "submit"
+      ? currentTheme.button.primary
+      : currentTheme.button.secondary;
 
   return (
     <button
