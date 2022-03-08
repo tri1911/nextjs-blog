@@ -1,15 +1,9 @@
 import React, { useState } from "react";
+import { ThemeList } from "../../components/react-context/types";
+import ThemePicker from "../../components/react-context/ThemePicker";
+import ThemedForm from "../../components/react-context/ThemedForm";
 
-type Theme = {
-  background: string;
-  text: string;
-  input: string;
-  button: {
-    primary: string;
-    secondary: string;
-  };
-};
-
+/*
 const themes: { [name: string]: Theme } = {
   cyan: {
     background: "bg-cyan-700",
@@ -39,66 +33,39 @@ const themes: { [name: string]: Theme } = {
     },
   },
 };
+*/
 
-const FormWithTheme = () => {
-  const [selectedTheme, setSelectedTheme] = useState("red");
-  const theme = themes[selectedTheme];
+const initialThemeList: ThemeList = {
+  default: {
+    name: "default",
+    description: "default theme",
+    main: "bg-cyan-700 text-white",
+    input: "bg-amber-100 text-violet-900",
+    button: {
+      primary: "bg-amber-600 text-white",
+      secondary: "bg-amber-200 text-stone-500",
+    },
+  },
+};
+
+const ThemeCreator = () => {
+  const [themes, setThemes] = useState<ThemeList>(initialThemeList);
+  const [selectedTheme, setSelectedTheme] = useState("default");
 
   return (
     <div className="flex">
-      <section className="max-w-sm h-fit p-3 m-3 bg-slate-300 rounded">
-        <p>
-          Pick theme color:{" "}
-          <select
-            className="p-1 rounded"
-            value={selectedTheme}
-            onChange={(e) => setSelectedTheme(e.target.value)}
-          >
-            <option value="cyan">Cyan</option>
-            <option value="red">Red</option>
-            <option value="green">Green</option>
-          </select>
-        </p>
+      <section className="h-fit p-3 m-3 bg-slate-300 rounded">
+        <ThemePicker
+          onChangeHandler={(e) => setSelectedTheme(e.target.value)}
+          themes={themes}
+          selectedTheme={selectedTheme}
+        />
       </section>
-      <section className="w-1/3 p-3">
-        <form
-          className={`${theme.background} ${theme.text} flex flex-col space-y-5 mx-auto shadow-md rounded px-8 py-6`}
-        >
-          <input
-            className={`w-full ${theme.input} border rounded p-3 leading-tight focus:outline-none focus:bg-white`}
-            type="text"
-            placeholder="First Name"
-            onChange={() => {}}
-          />
-          <input
-            className={`w-full ${theme.input} border rounded p-3 leading-tight focus:outline-none focus:bg-white`}
-            type="text"
-            placeholder="Last Name"
-            onChange={() => {}}
-          />
-          <textarea
-            className={`p-3 ${theme.input} border leading-tight rounded focus:outline-none focus:bg-white`}
-            placeholder="Description"
-            onChange={() => {}}
-          />
-          <div className={`flex justify-end items-center space-x-4`}>
-            <button
-              type="submit"
-              className={`${theme.button.primary} px-4 py-2 rounded shadow  focus:shadow-outline focus:outline-none font-medium`}
-            >
-              Submit
-            </button>
-            <button
-              type="submit"
-              className={`${theme.button.secondary} px-4 py-2 rounded shadow  focus:shadow-outline focus:outline-none font-medium`}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+      <section className="w-1/3 h-fit p-3">
+        <ThemedForm theme={themes[selectedTheme]} />
       </section>
     </div>
   );
 };
 
-export default FormWithTheme;
+export default ThemeCreator;
