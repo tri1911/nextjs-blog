@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { FormContext } from "./FormContext";
-import { initialThemeList, ThemeList } from "./types";
+import LoadingItem from "../common/LoadingItem";
+import { useThemeAPIQuery, useThemeAPIUpdate, useThemes } from "./hook";
+import { ThemeCreatorContext } from "./ThemeCreatorContext";
+import { initialThemeList } from "./types";
 
 export default function ThemeProvider({
   children,
@@ -8,13 +10,25 @@ export default function ThemeProvider({
   children: React.ReactNode;
 }) {
   const [selectedTheme, setSelectedTheme] = useState("default");
-  const [themes, setThemes] = useState<ThemeList>(initialThemeList);
+  const [isLoading, setIsLoading] = useState(false);
+  const [themes, setThemes] = useState(initialThemeList);
+
+  const { loadThemes } = useThemeAPIQuery();
+  const { saveTheme } = useThemeAPIUpdate();
+  const { _saveNewTheme } = useThemes({ loadThemes, saveTheme });
 
   return (
-    <FormContext.Provider
-      value={{ themes, setThemes, selectedTheme, setSelectedTheme }}
+    <ThemeCreatorContext.Provider
+      value={{
+        themes,
+        setThemes,
+        selectedTheme,
+        setSelectedTheme,
+        setIsLoading,
+        _saveNewTheme,
+      }}
     >
-      {children}
-    </FormContext.Provider>
+      {isLoading ? <LoadingItem /> : children}
+    </ThemeCreatorContext.Provider>
   );
 }

@@ -7,18 +7,17 @@ import { useTheme, useThemeUpdate } from "./hook";
 
 const ThemedForm = () => {
   const { themes, selectedTheme } = useTheme();
-  const { setThemes } = useThemeUpdate();
+  const { _saveNewTheme, setThemes } = useThemeUpdate();
 
   const currentTheme = themes[selectedTheme];
 
   const [state, setState] = useState(currentTheme);
-
   useEffect(() => setState(currentTheme), [currentTheme]);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    setThemes({ ...themes, [state.name]: state });
-    // reset state
+    // setThemes({ ...themes, [state.name]: state });
+    _saveNewTheme(state);
     setState(emptyTheme);
   };
 
