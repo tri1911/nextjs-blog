@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   initialThemeList,
   ThemeList,
-} from "../../components/react-context/types";
+} from "../../components/react-context/utils/types";
 
 let themes: ThemeList = initialThemeList;
 

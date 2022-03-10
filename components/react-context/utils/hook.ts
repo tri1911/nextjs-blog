@@ -2,11 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { initialThemeList, Theme, ThemeList } from "./types";
 
-/**
- * custom hook for loading themes from API
- * @returns loadThemes - async function to load themes from API
- */
-export function useThemeAPIQuery() {
+export function useThemeAPI() {
   return {
     loadThemes: async function () {
       try {
@@ -16,15 +12,6 @@ export function useThemeAPIQuery() {
         console.error(`Could not get themes: ${error}`);
       }
     },
-  };
-}
-
-/**
- * custom hook for saving theme into API
- * @returns saveTheme - async function to save/update theme to API
- */
-export function useThemeAPIUpdate() {
-  return {
     saveTheme: async function (newTheme: Theme) {
       try {
         const response = await axios.post("/api/themes", newTheme);

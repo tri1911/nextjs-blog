@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { ThemeCreatorContext } from "./ThemeCreatorContext";
+import React from "react";
+import { useTheme } from "./context/ThemeContext";
 
 const InputTextField = ({
   name,
@@ -10,7 +10,7 @@ const InputTextField = ({
   value: string;
   onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
-  const { themes, selectedTheme } = useContext(ThemeCreatorContext);
+  const { selectedTheme, themes } = useTheme();
   const currentTheme = themes[selectedTheme];
 
   return (

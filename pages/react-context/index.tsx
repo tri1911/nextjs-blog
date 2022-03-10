@@ -1,7 +1,7 @@
 import React from "react";
 import ThemePicker from "../../components/react-context/ThemePicker";
 import ThemedForm from "../../components/react-context/ThemedForm";
-import ThemeProvider from "../../components/react-context/ThemeProvider";
+import ThemeProvider from "../../components/react-context/context/ThemeProvider";
 
 const ThemeCreator = () => {
   return (

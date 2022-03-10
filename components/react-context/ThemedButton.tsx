@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { ThemeCreatorContext } from "./ThemeCreatorContext";
+import React from "react";
+import { useTheme } from "./context/ThemeContext";
 
 const ThemedButton = ({
   name,
@@ -10,8 +10,9 @@ const ThemedButton = ({
   type: "button" | "reset" | "submit" | undefined;
   onClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const { themes, selectedTheme } = useContext(ThemeCreatorContext);
+  const { themes, selectedTheme } = useTheme();
   const currentTheme = themes[selectedTheme];
+
   const color =
     type === "submit"
       ? currentTheme.button.primary
