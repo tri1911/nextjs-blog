@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Theme } from "../../model";
-import { cloneTheme, Maybe, noop } from "../../util";
+import { cloneTheme, Fn, Maybe } from "../../util";
 import { InputField, TextArea, Button } from "../widgets";
 
-function FormDemo({ theme }: { theme: Theme }) {
+function FormDemo({
+  theme,
+  saveTheme,
+}: {
+  theme: Theme;
+  saveTheme: Fn<[Theme], void>;
+}) {
   const [currentTheme, updateCurrentTheme] = useState<Theme>(cloneTheme(theme));
+
+  // If the focused is changed, we need to update the current them info
+  useEffect(() => updateCurrentTheme(cloneTheme(theme)), [theme]);
 
   return (
     <div
@@ -127,7 +136,7 @@ function FormDemo({ theme }: { theme: Theme }) {
         <div className={`my-4 flex gap-2`}>
           <Button
             label="Save"
-            onClick={noop}
+            onClick={() => saveTheme(currentTheme)}
             buttonStyle={currentTheme.style.button.primary}
           />
           <Button
@@ -141,9 +150,17 @@ function FormDemo({ theme }: { theme: Theme }) {
   );
 }
 
-export function ThemeDemo({ theme }: { theme: Maybe<Theme> }) {
+export function ThemeDemo({
+  theme,
+  saveTheme,
+}: {
+  theme: Maybe<Theme>;
+  saveTheme: Fn<[Theme], void>;
+}) {
   return theme ? (
-    <FormDemo theme={theme} />
+    // ⚠ NOTE: Notice how we need to feed this down to FormDemo?
+    // That's an indication that a context may be helpful
+    <FormDemo saveTheme={saveTheme} theme={theme} />
   ) : (
     <div className={`p-4`}>
       <div className={`mb-4 font-bold`}>Theme Demo</div>
