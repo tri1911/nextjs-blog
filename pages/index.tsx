@@ -60,7 +60,8 @@ import axios from "axios";
 const Slack = () => {
   const [message, setMessage] = React.useState("");
 
-  const sendMessage = async (e) => {
+  // FIXME: fix the typing
+  const sendMessage = async (e: any) => {
     e.preventDefault();
 
     try {

@@ -6,6 +6,10 @@ const themeRepo = ThemeRepo(BASE_THEME);
 
 // 👋🏻: Persistence in ThemeRepo works, but since NextJS Dev reloads API
 // on frontend reload, the saved theme goes away on reload
+//
+// - To try this, do `yarn build` followed by `yarn start -p <PORT>`
+//   - this forces NextJS to build the whole repo and start a server
+//     without the "livereoload" feature
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const newTheme = req.body;
