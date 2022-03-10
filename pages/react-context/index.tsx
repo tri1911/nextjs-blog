@@ -6,6 +6,15 @@ import { ThemeDemo, ThemeMenu } from "../../components/theme-configurator/view";
 export default function ThemeDesign() {
   const [selectedThemeId, setThemeId] = useState<Maybe<string>>(undefined);
   const { themes, saveTheme, getTheme } = useThemeRepo();
+
+  /*
+   * We can start identifying common things needed by children components
+   * - themes / getTheme
+   * - selectedThemeId / switchTheme
+   * - saveTheme
+   *
+   * These gives an idea of the context should have
+   */
   return (
     <div className={`flex gap-2 h-full`}>
       <div className={``}>
