@@ -1,9 +1,9 @@
-import React from "react";
-import { useTheme, useThemeUpdate } from "./hook";
+import React, { useContext } from "react";
+import { ThemeCreatorContext } from "./ThemeCreatorContext";
 
 const ThemePicker = () => {
-  const { themes, selectedTheme } = useTheme();
-  const { setSelectedTheme } = useThemeUpdate();
+  const { themes, selectedTheme, setSelectedTheme } =
+    useContext(ThemeCreatorContext);
 
   return (
     <p>

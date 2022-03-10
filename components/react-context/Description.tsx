@@ -1,5 +1,5 @@
-import React from "react";
-import { useTheme } from "./hook";
+import React, { useContext } from "react";
+import { ThemeCreatorContext } from "./ThemeCreatorContext";
 
 const Description = ({
   value,
@@ -8,7 +8,7 @@ const Description = ({
   value: string;
   onChangeHandler: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
-  const { themes, selectedTheme } = useTheme();
+  const { themes, selectedTheme } = useContext(ThemeCreatorContext);
   const currentTheme = themes[selectedTheme];
 
   return (

@@ -1,24 +1,6 @@
 import axios from "axios";
-import { useContext, useEffect } from "react";
-import { ThemeCreatorContext } from "./ThemeCreatorContext";
-import { Theme, ThemeList } from "./types";
-
-/**
- * @returns themes and selectedTheme state
- */
-export function useTheme() {
-  const { themes, selectedTheme } = useContext(ThemeCreatorContext);
-  return { themes, selectedTheme };
-}
-
-/**
- * @returns setThemes and setSelectedTheme functions to update theme creator's states
- */
-export function useThemeUpdate() {
-  const { setThemes, setSelectedTheme, _saveNewTheme } =
-    useContext(ThemeCreatorContext);
-  return { setThemes, setSelectedTheme, _saveNewTheme };
-}
+import { useEffect, useState } from "react";
+import { initialThemeList, Theme, ThemeList } from "./types";
 
 /**
  * custom hook for loading themes from API
@@ -67,12 +49,16 @@ export function useThemes({
   loadThemes: () => Promise<ThemeList>;
   saveTheme: (newTheme: Theme) => Promise<void>;
 }) {
-  const { themes, setThemes, setIsLoading } = useContext(ThemeCreatorContext);
+  const [themes, setThemes] = useState<ThemeList>(initialThemeList);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      await loadThemes();
+      const themes = await loadThemes();
+      // network loading simulation
+      await new Promise((r) => setTimeout(r, 1500));
+      setThemes(themes);
       setIsLoading(false);
     }
     fetchData();
@@ -84,6 +70,9 @@ export function useThemes({
   }
 
   return {
+    themes,
+    setThemes,
     _saveNewTheme,
+    isLoading,
   };
 }

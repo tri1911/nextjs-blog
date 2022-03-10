@@ -6,15 +6,15 @@ export type ThemeCreatorContextState = {
   setThemes: React.Dispatch<React.SetStateAction<ThemeList>>;
   selectedTheme: string;
   setSelectedTheme: React.Dispatch<React.SetStateAction<string>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   _saveNewTheme: (newTheme: Theme) => void;
 };
 
+const noop = () => {};
+
 export const ThemeCreatorContext = createContext<ThemeCreatorContextState>({
   themes: initialThemeList,
-  setThemes: () => {},
+  setThemes: noop,
   selectedTheme: "default",
-  setSelectedTheme: () => {},
-  setIsLoading: () => {},
-  _saveNewTheme: () => {},
+  setSelectedTheme: noop,
+  _saveNewTheme: noop,
 });

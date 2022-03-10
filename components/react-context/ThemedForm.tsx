@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { emptyTheme } from "./types";
 import InputTextField from "./InputTextField";
 import Description from "./Description";
 import ThemedButton from "./ThemedButton";
-import { useTheme, useThemeUpdate } from "./hook";
+import { ThemeCreatorContext } from "./ThemeCreatorContext";
 
 const ThemedForm = () => {
-  const { themes, selectedTheme } = useTheme();
-  const { _saveNewTheme, setThemes } = useThemeUpdate();
+  const { themes, selectedTheme, _saveNewTheme } =
+    useContext(ThemeCreatorContext);
 
   const currentTheme = themes[selectedTheme];
 
@@ -16,7 +16,6 @@ const ThemedForm = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    // setThemes({ ...themes, [state.name]: state });
     _saveNewTheme(state);
     setState(emptyTheme);
   };
