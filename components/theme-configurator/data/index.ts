@@ -19,9 +19,9 @@ export const BASE_THEME: Theme[] = [
     style: {
       button: {
         primary: { text: `text-white`, bg: `bg-red-600` },
-        secondary: { text: `text-red-600`, bg: `border-red-600` },
+        secondary: { text: `text-red-600`, bg: `border-red-600 border` },
       },
-      input: { text: `text-gray-700`, bg: `text-white` },
+      input: { text: `text-gray-700`, bg: `bg-white` },
       root: { text: `text-gray-700`, bg: `bg-red-100` },
     },
   },
@@ -31,9 +31,9 @@ export const BASE_THEME: Theme[] = [
     style: {
       button: {
         primary: { text: `text-white`, bg: `bg-blue-600` },
-        secondary: { text: `text-blue-600`, bg: `border-blue-600` },
+        secondary: { text: `text-blue-600`, bg: `border-blue-600 border` },
       },
-      input: { text: `text-gray-700`, bg: `text-white` },
+      input: { text: `text-gray-700`, bg: `bg-white` },
       root: { text: `text-gray-700`, bg: `bg-blue-100` },
     },
   },
