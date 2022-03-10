@@ -1,5 +1,5 @@
+import axios, { AxiosResponse } from "axios";
 import { Theme } from "../model";
-import { cloneTheme } from "../util";
 
 /**
  * A basic Theme Repository factory to manage themes
@@ -7,19 +7,13 @@ import { cloneTheme } from "../util";
  *
  * - think of this as our eventual backend implementation
  */
-export function ThemeRepo(baseThemes: Theme[]) {
-  const themes = baseThemes.map(cloneTheme);
+export function ThemeRepoApi() {
   return {
-    allThemes() {
-      return themes.map(cloneTheme);
+    async allThemes(): Promise<AxiosResponse<Theme[]>> {
+      return await axios.get("/api/themes");
     },
-    saveTheme(theme: Theme) {
-      const i = themes.findIndex((t) => t.name === theme.name);
-      if (i === -1) {
-        themes.push(theme);
-      } else {
-        themes[i] = theme;
-      }
+    async saveTheme(theme: Theme) {
+      return await axios.post("/api/themes", theme);
     },
   };
 }

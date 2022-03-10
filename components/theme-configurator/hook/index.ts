@@ -1,16 +1,25 @@
-import { useMemo, useState, useCallback } from "react";
-import { BASE_THEME } from "../data";
-import { ThemeRepo } from "../logic";
+import { useState, useCallback, useEffect } from "react";
+import { ThemeRepoApi } from "../logic";
 import { Theme } from "../model";
+
+// Moving themeRepo out to reduce noise
+const themeRepo = ThemeRepoApi();
 
 /**
  * This hook connects the theme repo to react life cycle
  * so any updates to themes would trigger re-render
  */
 export function useThemeRepo() {
-  // This creates themeRepo only once
-  const themeRepo = useMemo(() => ThemeRepo(BASE_THEME), []);
-  const [allThemes, updateThemes] = useState(themeRepo.allThemes());
+  const [allThemes, updateThemes] = useState([] as Theme[]);
+
+  const refresh = () => {
+    themeRepo.allThemes().then((res) => {
+      updateThemes(res.data);
+    });
+  };
+  useEffect(() => {
+    refresh();
+  }, []);
 
   // We can choose to not wrap with `useCallback`, but that means
   // each rendering, we would instantiate `saveTheme` once. Which means
@@ -23,7 +32,7 @@ export function useThemeRepo() {
   // gets initialized once)
   const saveTheme = useCallback((theme: Theme) => {
     themeRepo.saveTheme(theme);
-    updateThemes(themeRepo.allThemes());
+    refresh();
   }, []);
 
   return {
