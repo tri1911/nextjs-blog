@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+import { useAvailableThemes, useFocusedTheme } from "../../context";
 import { Theme } from "../../model";
 import { cloneTheme, Fn, Maybe } from "../../util";
 import { InputField, TextArea, Button } from "../widgets";
 
-function FormDemo({
-  theme,
-  saveTheme,
-}: {
-  theme: Theme;
-  saveTheme: Fn<[Theme], void>;
-}) {
+function FormDemo({}: {}) {
+  const { focusedTheme } = useFocusedTheme();
+  const { saveTheme } = useAvailableThemes();
+
+  // Since we only render FormDemo when focusedTheme is not undefined,
+  // we can safely coerce this
+  const theme = focusedTheme!;
   const [currentTheme, updateCurrentTheme] = useState<Theme>(cloneTheme(theme));
 
   // If the focused is changed, we need to update the current them info
@@ -150,17 +151,12 @@ function FormDemo({
   );
 }
 
-export function ThemeDemo({
-  theme,
-  saveTheme,
-}: {
-  theme: Maybe<Theme>;
-  saveTheme: Fn<[Theme], void>;
-}) {
-  return theme ? (
+export function ThemeDemo() {
+  const { focusedTheme } = useFocusedTheme();
+  return focusedTheme ? (
     // ⚠ NOTE: Notice how we need to feed this down to FormDemo?
     // That's an indication that a context may be helpful
-    <FormDemo saveTheme={saveTheme} theme={theme} />
+    <FormDemo />
   ) : (
     <div className={`p-4`}>
       <div className={`mb-4 font-bold`}>Theme Demo</div>

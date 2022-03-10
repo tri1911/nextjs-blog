@@ -1,3 +1,4 @@
+import { useAvailableThemes, useFocusedTheme } from "../../context";
 import { Theme } from "../../model";
 import { Fn, Maybe } from "../../util";
 
@@ -23,15 +24,9 @@ function ThemeItem({
   );
 }
 
-export function ThemeMenu({
-  themes,
-  selectedThemeId,
-  switchTheme,
-}: {
-  themes: Theme[];
-  selectedThemeId: Maybe<string>;
-  switchTheme: Fn<[string], void>;
-}) {
+export function ThemeMenu({}: {}) {
+  const { themes } = useAvailableThemes();
+  const { focus, switchTheme } = useFocusedTheme();
   return (
     <div className={`p-4`}>
       <div className={`font-bold`}>Available Themes</div>
@@ -39,7 +34,7 @@ export function ThemeMenu({
         {themes.map((t) => (
           <li className={`ml-0 my-2`} key={t.name}>
             <ThemeItem
-              isSelected={selectedThemeId === t.name}
+              isSelected={focus === t.name}
               theme={t}
               onClick={() => switchTheme(t.name)}
             />

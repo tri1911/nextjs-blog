@@ -28,7 +28,6 @@ export function useThemeRepo() {
 
   return {
     themes: allThemes,
-    getTheme: (n: string) => allThemes.find((t) => t.name === n),
     saveTheme,
   };
 }
