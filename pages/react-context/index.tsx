@@ -1,7 +1,24 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { useThemeRepo } from "../../components/theme-configurator/hook";
-import { Maybe } from "../../components/theme-configurator/util";
+import { Maybe, noop } from "../../components/theme-configurator/util";
 import { ThemeDemo, ThemeMenu } from "../../components/theme-configurator/view";
+
+// 👋🏻 Here, we start setting up context factories.
+// We don't need to restrict ourselves to only a single factory
+const AvailableThemesContext = createContext({
+  themes: [],
+
+  // Since children need to updateThemes, it's likely we need to create a
+  // wrapped provider to include some extra state/logic
+  updateThemes: noop,
+});
+
+const FocusedThemeContext = createContext({
+  focus: undefined,
+  focusedTheme: undefined,
+  // Same here (see above)
+  switchTheme: noop,
+});
 
 export default function ThemeDesign() {
   const [selectedThemeId, setThemeId] = useState<Maybe<string>>(undefined);
@@ -13,7 +30,7 @@ export default function ThemeDesign() {
    * - selectedThemeId / switchTheme
    * - saveTheme
    *
-   * These gives an idea of the context should have
+   * These gives an idea of what the context should have
    */
   return (
     <div className={`flex gap-2 h-full`}>
