@@ -1,6 +1,6 @@
 import React from "react";
 import CardItem from "../../components/infinite-scroll/CardItem";
-import LoadingItem from "../../components/infinite-scroll/LoadingItem";
+import LoadingItem from "../../components/common/LoadingItem";
 import { useInfiniteScrolling } from "../../components/infinite-scroll/hook";
 
 const InfiniteScrollingPage = () => {
