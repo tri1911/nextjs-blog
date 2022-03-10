@@ -11,6 +11,7 @@ module.exports = {
     },
   },
   plugins: [require("@tailwindcss/typography")],
+    // Safelist is necessary to allow unseen tags usable in theme-configurator
     safelist: [
     {
       pattern: /bg-(red|green|blue|orange|lime|teal|cyan|pink|rose)-/,

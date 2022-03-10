@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { BASE_THEME } from "../../components/theme-configurator/data";
-import { Maybe } from "../../components/theme-configurator/util";
-import { ThemeMenu, ThemeDemo } from "../../components/theme-configurator/view";
+import { cloneTheme, Maybe } from "../../components/theme-configurator/util";
+import { ThemeDemo, ThemeMenu } from "../../components/theme-configurator/view";
+
+const ThemeRepo = BASE_THEME.map(cloneTheme);
 
 export default function ThemeDesign() {
   const [selectedThemeId, setThemeId] = useState<Maybe<string>>(undefined);
@@ -9,7 +11,7 @@ export default function ThemeDesign() {
     <div className={`flex gap-2 h-full`}>
       <div className={``}>
         <ThemeMenu
-          themes={BASE_THEME}
+          themes={ThemeRepo}
           selectedThemeId={selectedThemeId}
           switchTheme={setThemeId}
         />
@@ -18,7 +20,7 @@ export default function ThemeDesign() {
         <ThemeDemo
           theme={
             selectedThemeId
-              ? BASE_THEME.find((t) => t.name === selectedThemeId)
+              ? ThemeRepo.find((t) => t.name === selectedThemeId)
               : undefined
           }
         />
